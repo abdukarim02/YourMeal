@@ -71,6 +71,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /*--------------------*/
 body {
+  position: relative;
   font-family: "Nunito", sans-serif;
   color: #000;
   font-weight: 400;
@@ -434,6 +435,87 @@ body {
   margin-top: 5px;
 }
 
+.deliver {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.8);
+}
+.deliver__content {
+  border-radius: 24px;
+  width: 684px;
+  height: 432px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+  box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);
+}
+.deliver__content-bg {
+  width: 50%;
+  padding: 65px 20px;
+  background: #ffab08;
+}
+.deliver__content-bg img {
+  width: 302px;
+  height: 302px;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+.deliver__content-info {
+  width: 50%;
+  height: 100%;
+  padding: 24px;
+  background: #f9f9f9;
+}
+.deliver__info-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+.deliver__top-title {
+  font-weight: 600;
+  font-size: 24px;
+  color: #000;
+}
+.deliver__info-btn {
+  background: transparent;
+}
+.deliver__top-form {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  flex-direction: column;
+  gap: 16px;
+}
+.deliver__form-header {
+  width: 100%;
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  flex-direction: column;
+  gap: 8px;
+}
+.deliver__header-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #f2f2f3;
+  background: #fff;
+}
+.deliver__form-main {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  flex-direction: column;
+  gap: 12px;
+}
 @media (max-width: 1024px) {
   .header__content-body {
     width: 100%;
@@ -455,6 +537,9 @@ body {
   }
   .header__info-title {
     font-size: 36px;
+  }
+  .main__content {
+    gap: 20px;
   }
   .card {
     flex: 0 1 100%;

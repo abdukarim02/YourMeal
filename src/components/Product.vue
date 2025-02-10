@@ -43,6 +43,10 @@
                 <span class="card__total-price">{{ totalPrice }}₽</span>
               </div>
               <button class="card__footer-btn">Оформить заказ</button>
+              <div v-if="totalPrice > 1599" class="card__content-delivery">
+                <img src="/public/delivery.png" alt="">
+                <p  class="card__free-delivery">Бесплатная доставка</p>
+              </div>
             </div>
           </div>
 
@@ -50,6 +54,7 @@
             <p>Тут пока пусто :(</p>
           </div>
          </div>
+         <Delivery/>
       </div>   
       <div class="product">
         <div class="product__wrap">
@@ -70,7 +75,11 @@
   </section>
 </template>
 <script>
+import Delivery from './Delivery.vue'
 export default {
+  components: {
+    Delivery
+  },
   data() {
     return {
       selectedCategory: 'Бургеры',
