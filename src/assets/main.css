@@ -216,6 +216,11 @@ body {
   color: #000;
 }
 .card__content-basket {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  flex-direction: column;
+  gap: 15px;
   padding: 16px 0;
   border-top: 1px solid #f2f2f3;
 }
@@ -227,6 +232,7 @@ body {
 .card__body-bg {
   width: 64px;
   height: 52px;
+  margin-right: 6px;
 }
 .card__body-bg img {
   width: 100%;
@@ -306,6 +312,11 @@ body {
   align-items: center;
   justify-content: left;
   gap: 8px;
+}
+.card__empty p {
+  font-weight: 400;
+  font-size: 16px;
+  color: #000;
 }
 
 .product {
