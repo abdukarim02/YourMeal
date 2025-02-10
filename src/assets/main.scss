@@ -1,0 +1,395 @@
+*{padding: 0;margin: 0;border: 0;}
+*,*:before,*:after{-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}
+:focus,:active{outline: none;}
+a:focus,a:active{outline: none;}
+nav,footer,header,aside{display: block;}
+html,body{height:100%;width:100%;font-size:100%;line-height:1;font-size:14px;-ms-text-size-adjust:100%;-moz-text-size-adjust:100%;-webkit-text-size-adjust:100%;}
+input,button,textarea{font-family:inherit;}
+input::-ms-clear{display: none;}
+button{cursor: pointer;}
+button::-moz-focus-inner{padding:0;border:0;}
+a,a:visited{text-decoration: none;}
+a:hover{text-decoration: none;}
+ul li{list-style: none;}
+img{vertical-align: top;}
+h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight: inherit;}
+/*--------------------*/
+$font-family: "Nunito", sans-serif;
+$color-1: #000;
+$color-2: #ff5c00;
+$color-3: #fff;
+@mixin stylefontz($fw, $fs, $c){
+    font-weight: $fw;
+    font-size: $fs;
+    color: $c;
+}
+@mixin stylcenter($d, $ai, $jc){
+    display: $d;
+    align-items: $ai;
+    justify-content: $jc;
+}
+body {
+    font-family: $font-family;
+    color: $color-1;
+    @include stylefontz( 400, 16px, $color-1);
+}
+.container {
+    max-width: 1250px;
+    height: 100%;
+    margin: 0 auto;
+    padding: 0 10px;
+}
+.wrapper {
+    width: 100%;
+    background: #f9f9f9;
+}
+.header {
+    width: 100%;
+    height: 70vh;
+    background-image: url(/public/bg.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    &__content {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        padding: 25px 0 45px;
+    }
+    &__content-logo {
+        display: block;
+        width: 150px;
+        height: 29px;
+        margin: 0 auto 25px;
+    }
+    &__logo-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    &__content-body {
+        width: 80%;
+        @include stylcenter(flex, center, center);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    &__body-bg {
+        width: 326px;
+        height: 326px;
+    }
+    &__bg-img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+    &__content-info {
+        width: 50%;
+    }
+    &__info-title {
+        @include stylefontz( 800, 50px, $color-3);
+        line-height: 1.2;
+        margin-bottom: 25px;
+        span {
+            color: $color-2;
+        }
+    }
+    &__info-text {
+        @include stylefontz( 400, 16px, $color-3);
+    }
+}
+.main {
+    width: 100%;
+    margin-top: 40px;
+    &__content {
+        @include stylcenter(flex, start, space-between);
+        flex-wrap: wrap;
+    }
+}
+.categories {
+    flex: 0 1 100%;
+    margin-bottom: 50px;
+    overflow: hidden;
+    &__content {
+        width: 100%;
+        @include stylcenter(flex, center, space-between);
+    }
+    &__content-btn {
+        border-radius: 50px;
+        width: 121px;
+        height: 40px;
+        @include stylcenter(flex, center, space-around);
+        background: $color-3;
+    }
+    &__btn-name {
+        @include stylefontz( 400, 16px, $color-1);
+    }
+}
+.active {
+    background: $color-2;
+}
+.card {
+    flex: 0 1 20%;
+    &__content-header {
+        @include stylcenter(flex, center, space-between); 
+        margin-bottom: 15px;
+    }
+    &__header-name {
+        @include stylefontz( 600, 24px, $color-1);
+    }
+    &__header-number {
+        @include stylefontz( 400, 12px, $color-1);
+    }
+    &__content-basket { 
+        padding: 16px 0;  
+        border-top: 1px solid #f2f2f3;   
+    }
+    &__basket-body {
+        @include stylcenter(flex, center, space-between); 
+    }
+    &__body-bg {
+        width: 64px;
+        height: 52px;
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+    }
+    &__info-name {
+        @include stylefontz( 400, 12px, $color-1);
+        line-height: 1.2;
+    }
+    &__info-gram {
+        margin: 1px 0 6px;
+        @include stylefontz( 400, 12px, #b1b1b1);
+        line-height: 1.2;
+    }
+    &__info-price {
+        @include stylefontz( 400, 12px, $color-1);
+        line-height: 1.5;
+    }
+    &__body-button {
+        border-radius: 12px;
+        width: 84px;
+        height: 40px;
+        @include stylcenter(flex, center, space-around);
+        background: #f2f2f3;
+        span {
+            @include stylefontz( 400, 16px, $color-1);
+        }
+    }
+    &__button-number {
+        @include stylefontz( 400, 16px, $color-1);
+    }
+    &__footer-total {
+        @include stylcenter(flex, center, space-between);
+        margin: 16px 0 24px;
+    }
+    &__total-name {
+        @include stylefontz( 400, 16px, $color-1);
+        line-height: 1.3;
+    }
+    &__total-price {
+        @include stylefontz( 400, 16px, $color-1);
+        line-height: 1.3;
+    }
+    &__footer-btn {
+        width: 100%;
+        padding: 12px 0;
+        border-radius: 12px;
+        background: $color-2;
+        @include stylefontz( 400, 16px, $color-3);
+    }
+    &__content-delivery {
+        margin-top: 8px;
+        @include stylcenter(flex, center, left);
+        gap: 8px;
+    }
+}
+.product {
+    margin-bottom: 100px;
+    flex: 0 1 78%;
+    &__wrap {
+        @include stylcenter(flex, center, space-between); 
+        flex-wrap: wrap;
+        gap: 30px;
+    }
+    &__wrap-flex {
+        flex: 0 1 31%;
+    }
+    &__flex-bg {
+        width: 100%;
+        height: 220px;
+        margin: 0 auto;
+    }
+    &__bg-img {
+        border-radius: 12px;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    &__flex-info {
+        width: 100%;
+        margin: 0 auto;
+    }
+    &__info-price {
+        @include stylefontz( 400, 24px, $color-1);
+        margin: 16px 0 8px;
+    }
+    &__info-name {
+        @include stylefontz( 400, 16px, $color-1);
+    }
+    &__info-gram {
+        @include stylefontz( 400, 16px,  #b1b1b1);
+        margin: 29px 0 8px;
+    }
+    &__flex-btn {
+        border-radius: 12px;
+        padding: 12px 0;
+        width: 100%;
+        @include stylcenter(flex, center, center); 
+        margin: 0 auto;
+        background: #f2f2f3;
+    }
+}
+.footer {
+    padding: 50px 0 40px;
+    &__content-top {
+        @include stylcenter(flex, center, space-between); 
+        margin-bottom: 60px;
+    }
+    &__top-logo {
+        width: 300px;
+        height: 58px;
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+    &__top-menu {
+        width: 495px;
+        @include stylcenter(flex, center, space-between); 
+    }
+    &__list-name {
+        @include stylefontz( 400, 24px, $color-1);
+        margin-bottom: 25px;
+    }
+    &__list-link {
+        @include stylcenter(flex, center, space-between);
+        @include stylefontz( 400, 16px, $color-1);
+    }
+    &__list-sochel {
+        @include stylcenter(flex, center, left);
+        gap: 15px;
+    }
+    &__button-name {
+        @include stylefontz( 400, 12px, $color-1);
+    }
+    &__button-link {
+        @include stylefontz( 400, 12px, $color-1);
+        margin-top: 5px;
+    }
+}
+@media (max-width: 1024px) {
+    .header {
+        &__content-body {
+            width: 100%;
+        }
+    }
+    .card {
+        flex: 0 1 31%;
+    }
+    .product {
+        flex: 0 1 60%;
+        &__wrap-flex {
+            flex: 0 1 46%;
+        }
+    }
+}
+@media (max-width: 768px) {
+    .header {
+        &__body-bg {
+            width: 227px;
+            height: 229px;
+        }
+        &__info-title {
+            font-size: 36px;
+        }
+    }
+    .card {
+        flex: 0 1 100%;
+    }
+    .product {
+        flex: 0 1 100%;
+        &__wrap-flex {
+            flex: 0 1 29%;
+        }
+    }
+    .categories {
+        &__content {
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        &__content-btn {
+            width: 20%;
+            height: 30px;  
+        }
+        &__btn-name {
+            font-size: 12px;
+        }
+    }
+    .footer {
+        &__content-top {
+            align-items: start;
+            flex-direction: column;
+            gap: 35px;
+        }
+    }
+}
+@media (max-width: 425px) {
+    .header {
+        height: 100vh;
+        &__content-body {
+            flex-direction: column-reverse;
+            gap: 20px;
+        }
+        &__body-bg {
+            width: 100%;
+            height: 100%;
+        }
+        &__content-info {
+            width: 100%;
+        }
+        &__info-title {
+            text-align: center;
+            font-size: 30px;
+        }
+        &__info-text {
+            text-align: center;
+        }
+    }
+    .product {
+        flex: 0 1 100%;
+        &__wrap-flex {
+            flex: 0 1 100%;
+        }
+    }
+    .categories {
+        &__content-btn {
+            width: 29%;
+            height: 30px;  
+        }
+    }
+    .footer {
+        &__top-menu {
+            width: 100%;
+            align-items: start;
+            flex-direction: column;
+            gap: 35px;
+        }
+    }
+}
