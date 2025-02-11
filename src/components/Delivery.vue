@@ -102,8 +102,11 @@ export default {
             }
             alert('Заказ оформлен!');
             this.closePopup();
+            setTimeout(() => {
+                location.reload();
+            }, 500); // Добавляем небольшую задержку перед перезагрузкой
+            }
         }
-    }
 };
 </script>
 

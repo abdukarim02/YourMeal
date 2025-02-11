@@ -21,9 +21,9 @@
                     <div class="product-card__info-gram">{{ product.weight }}г, ккал 430</div>
                 </div>
             </div> 
-            <div class="product-card__content-button">
+            <!-- <div class="product-card__content-button">
                 <div class="product-card__button">
-                    <button class="product-card__button-btn" @click="$emit('add-to-cart', product)">Добавить</button>
+                    <button class="product-card__button-btn"  @click.stop="addToCart(product)">Добавить</button>
                     <div class="product-card__button-corusel">
                         <button @click="decreaseQuantity">-</button>
                         <span>{{ quantity }}</span>
@@ -31,7 +31,7 @@
                     </div>
                 </div>
                 <p class="product-card__button-price">{{ product.price }}₽</p>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
@@ -47,14 +47,17 @@ export default {
         };
     },
     methods: {
-        increaseQuantity() {
-            this.quantity++;
-        },
-        decreaseQuantity() {
-            if (this.quantity > 1) {
-                this.quantity--;
-            }
+    increaseQuantity() {
+        this.quantity++;
+    },
+    decreaseQuantity() {
+        if (this.quantity > 1) {
+            this.quantity--;
         }
+    },
+    addToCart() {
+        this.$emit('add-to-cart', { ...this.product, quantity: this.quantity });
+    }
     }
 };
 </script>
