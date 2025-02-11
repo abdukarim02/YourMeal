@@ -21,19 +21,19 @@
           <div v-if="cart.length">
             <div class="card__content-basket">
               <div v-for="item in cart" :key="item.id" class="card__basket-body">
-          <div class="card__body-bg">
-            <img :src="item.img" alt="">
-          </div>
-          <div class="card__body-info">
-            <h5 class="card__info-name">{{ item.name }}</h5>
-            <span class="card__info-gram">{{ item.weight }}г</span>
-            <p class="card__info-price">{{ item.price }}₽</p>
-          </div>
-          <div class="card__body-button">
-            <button @click="decreaseQuantity(item)">-</button>
-            <span class="card__button-number">{{ item.quantity }}</span>
-            <button @click="increaseQuantity(item)">+</button>
-          </div>
+                <div class="card__body-bg">
+                  <img :src="item.img" alt="">
+                </div>
+                <div class="card__body-info">
+                  <h5 class="card__info-name">{{ item.name }}</h5>
+                  <span class="card__info-gram">{{ item.weight }}г</span>
+                  <p class="card__info-price">{{ item.price }}₽</p>
+                </div>
+                <div class="card__body-button">
+                  <button @click="decreaseQuantity(item)">-</button>
+                  <span class="card__button-number">{{ item.quantity }}</span>
+                  <button @click="increaseQuantity(item)">+</button>
+                </div>
               </div>
             </div>
 
@@ -42,10 +42,10 @@
                 <h5 class="card__total-name">Итого</h5>
                 <span class="card__total-price">{{ totalPrice }}₽</span>
               </div>
-              <button class="card__footer-btn">Оформить заказ</button>
+              <button class="card__footer-btn" @click="openDelivery">Оформить заказ</button>
               <div v-if="totalPrice > 1599" class="card__content-delivery">
                 <img src="/public/delivery.png" alt="">
-                <p  class="card__free-delivery">Бесплатная доставка</p>
+                <p class="card__free-delivery">Бесплатная доставка</p>
               </div>
             </div>
           </div>
@@ -53,9 +53,11 @@
           <div v-else class="card__empty">
             <p>Тут пока пусто :(</p>
           </div>
-         </div>
-         <Delivery/>
+        </div>
       </div>   
+
+      <Delivery v-if="showDelivery"/>
+
       <div class="product">
         <div class="product__wrap">
           <div v-for="product in filteredProducts" :key="product.id" class="product__wrap-flex">
@@ -74,6 +76,7 @@
     </div>
   </section>
 </template>
+
 <script>
 import Delivery from './Delivery.vue'
 export default {
@@ -83,6 +86,7 @@ export default {
   data() {
     return {
       selectedCategory: 'Бургеры',
+      showDelivery: false, // Скрываем Delivery изначально
       categories: [
         { name: 'Бургеры', img: '/public/filter-1.png' },
         { name: 'Закуски', img: '/public/filter-2.png' },
@@ -158,6 +162,9 @@ export default {
       } else {
         this.cart = this.cart.filter(p => p.id !== item.id);
       }
+    },
+    openDelivery() {
+      this.showDelivery = true;
     }
   }
 };
