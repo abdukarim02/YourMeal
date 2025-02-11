@@ -60,7 +60,7 @@
 
       <div class="product">
         <div class="product__wrap">
-          <div v-for="product in filteredProducts" :key="product.id" class="product__wrap-flex">
+          <div v-for="product in filteredProducts" :key="product.id" class="product__wrap-flex" @click="openProduct(product)">
             <div class="product__flex-bg">
               <img :src="product.img" :alt="product.name" class="product__bg-img">
             </div>
@@ -69,66 +69,70 @@
               <p class="product__info-name">{{ product.name }}</p>
               <p class="product__info-gram">{{ product.weight }}г</p>
             </div>
-            <button class="product__flex-btn" @click="addToCart(product)">Добавить</button>
+            <button class="product__flex-btn" @click.stop="addToCart(product)">Добавить</button>
           </div>
         </div>
       </div>
+      <ProductCard v-if="selectedProduct" :product="selectedProduct" @close="selectedProduct = null"/>
     </div>
   </section>
 </template>
 
 <script>
 import Delivery from './Delivery.vue'
+import ProductCard from './ProductCard.vue'
 export default {
   components: {
-    Delivery
+    Delivery,
+    ProductCard
   },
   data() {
     return {
       selectedCategory: 'Бургеры',
-      showDelivery: false, // Скрываем Delivery изначально
+      showDelivery: false,
+      selectedProduct: null,
       categories: [
-        { name: 'Бургеры', img: '/public/filter-1.png' },
-        { name: 'Закуски', img: '/public/filter-2.png' },
-        { name: 'Хот-доги', img: '/public/filter-3.png' },
-        { name: 'Комбо', img: '/public/filter-4.png' },
-        { name: 'Шаурма', img: '/public/filter-5.png' },
-        { name: 'Пицца', img: '/public/filter-6.png' },
-        { name: 'Вок', img: '/public/filter-7.png' },
-        { name: 'Десерты', img: '/public/filter-8.png' },
-        { name: 'Соусы', img: '/public/filter-9.png' },
+      { name: 'Бургеры', img: '/public/filter-1.png' },
+      { name: 'Закуски', img: '/public/filter-2.png' },
+      { name: 'Хот-доги', img: '/public/filter-3.png' },
+      { name: 'Комбо', img: '/public/filter-4.png' },
+      { name: 'Шаурма', img: '/public/filter-5.png' },
+      { name: 'Пицца', img: '/public/filter-6.png' },
+      { name: 'Вок', img: '/public/filter-7.png' },
+      { name: 'Десерты', img: '/public/filter-8.png' },
+      { name: 'Соусы', img: '/public/filter-9.png' },
       ],
       products: [
-        { id: 1, name: 'Мясная бомба', category: 'Бургеры', img: '/public/product-1.png', price: 689, weight: 512 },
-        { id: 2, name: 'Супер сырный', category: 'Бургеры', img: '/public/product-2.png', price: 550, weight: 520 },
-        { id: 3, name: 'Сытный', category: 'Бургеры', img: '/public/product-3.png', price: 639, weight: 512 },
-        { id: 4, name: 'Тяжелый удар', category: 'Бургеры', img: '/public/product-4.png', price: 480, weight: 520 },
-        { id: 5, name: 'Вечная классика', category: 'Бургеры', img: '/public/product-5.png', price: 450, weight: 512 },
-        { id: 6, name: 'Итальянский', category: 'Бургеры', img: '/public/product-6.png', price: 560, weight: 520 },
-        { id: 7, name: 'Начос', category: 'Закуски', img: '/public/product-7.png', price: 250, weight: 220 },
-        { id: 8, name: 'Картошка фри', category: 'Закуски', img: '/public/product-8.png', price: 245, weight: 180 },
-        { id: 9, name: 'Луковые кольца', category: 'Закуски', img: '/public/product-9.png', price: 230, weight: 160 },
-        { id: 10, name: 'Домашний хот-дог', category: 'Хот-доги', img: '/public/product-10.png', price: 290, weight: 220 },
-        { id: 11, name: 'Жгучий хот-дог', category: 'Хот-доги', img: '/public/product-11.png', price: 239, weight: 180 },
-        { id: 12, name: 'Классический хот-дог', category: 'Хот-доги', img: '/public/product-12.png', price: 220, weight: 160 },
-        { id: 13, name: 'Мясная бомба', category: 'Комбо', img: '/public/product-1.png', price: 689, weight: 512 },
-        { id: 14, name: 'Супер сырный', category: 'Комбо', img: '/public/product-2.png', price: 550, weight: 520 },
-        { id: 15, name: 'Сытный', category: 'Комбо', img: '/public/product-3.png', price: 639, weight: 512 },
-        { id: 16, name: 'Тяжелый удар', category: 'Шаурма', img: '/public/product-4.png', price: 480, weight: 520 },
-        { id: 17, name: 'Вечная классика', category: 'Шаурма', img: '/public/product-5.png', price: 450, weight: 512 },
-        { id: 18, name: 'Итальянский', category: 'Шаурма', img: '/public/product-6.png', price: 560, weight: 520 },
-        { id: 19, name: 'Начос', category: 'Пицца', img: '/public/product-7.png', price: 250, weight: 220 },
-        { id: 20, name: 'Картошка фри', category: 'Пицца', img: '/public/product-8.png', price: 245, weight: 180 },
-        { id: 21, name: 'Луковые кольца', category: 'Пицца', img: '/public/product-9.png', price: 230, weight: 160 },
-        { id: 19, name: 'Начос', category: 'Вок', img: '/public/product-10.png', price: 250, weight: 220 },
-        { id: 20, name: 'Картошка фри', category: 'Вок', img: '/public/product-11.png', price: 245, weight: 180 },
-        { id: 21, name: 'Луковые кольца', category: 'Вок', img: '/public/product-12.png', price: 230, weight: 160 },
-        { id: 19, name: 'Начос', category: 'Десерты', img: '/public/product-1.png', price: 250, weight: 220 },
-        { id: 20, name: 'Картошка фри', category: 'Десерты', img: '/public/product-2.png', price: 245, weight: 180 },
-        { id: 21, name: 'Луковые кольца', category: 'Десерты', img: '/public/product-3.png', price: 230, weight: 160 },
-        { id: 19, name: 'Начос', category: 'Соусы', img: '/public/product-4.png', price: 250, weight: 220 },
-        { id: 20, name: 'Картошка фри', category: 'Соусы', img: '/public/product-5.png', price: 245, weight: 180 },
-        { id: 21, name: 'Луковые кольца', category: 'Соусы', img: '/public/product-6.png', price: 230, weight: 160 },
+      { id: 1, name: 'Мясная бомба', category: 'Бургеры',  ingredients: ['Пшеничная булочка', 'Котлета из говядины', 'Красный лук', 'Листья салата', 'Соус горчичный'], textInfo: 'Супер мясное наслаждение! Большая рубленая котлета из свежего говяжего мяса покорит вас своей сочностью, а хрустящие листья салата добавят свежести.',  img: '/public/product-1.png', price: 689, weight: 512 },
+        { id: 2, name: 'Супер сырный', category: 'Бургеры',  ingredients: ['Пшеничная булочка', 'Котлета из говядины', 'Красный лук', 'Листья салата', 'Соус горчичный'],textInfo: 'Супер мясное наслаждение! Большая рубленая котлета из свежего говяжего мяса покорит вас своей сочностью, а хрустящие листья салата добавят свежести.', img: '/public/product-2.png', price: 550, weight: 520 },
+        { id: 3, name: 'Сытный', category: 'Бургеры',  ingredients: ['Пшеничная булочка', 'Котлета из говядины', 'Красный лук', 'Листья салата', 'Соус горчичный'],textInfo: 'Супер мясное наслаждение! Большая рубленая котлета из свежего говяжего мяса покорит вас своей сочностью, а хрустящие листья салата добавят свежести.', img: '/public/product-3.png', price: 639, weight: 512 },
+        { id: 4, name: 'Тяжелый удар', category: 'Бургеры',  ingredients: ['Пшеничная булочка', 'Котлета из говядины', 'Красный лук', 'Листья салата', 'Соус горчичный'],textInfo: 'Супер мясное наслаждение! Большая рубленая котлета из свежего говяжего мяса покорит вас своей сочностью, а хрустящие листья салата добавят свежести.', img: '/public/product-4.png', price: 480, weight: 520 },
+        { id: 5, name: 'Вечная классика', category: 'Бургеры',  ingredients: ['Пшеничная булочка', 'Котлета из говядины', 'Красный лук', 'Листья салата', 'Соус горчичный'],textInfo: 'Супер мясное наслаждение! Большая рубленая котлета из свежего говяжего мяса покорит вас своей сочностью, а хрустящие листья салата добавят свежести.', img: '/public/product-5.png', price: 450, weight: 512 },
+        { id: 6, name: 'Итальянский', category: 'Бургеры',  ingredients: ['Пшеничная булочка', 'Котлета из говядины', 'Красный лук', 'Листья салата', 'Соус горчичный'],textInfo: 'Супер мясное наслаждение! Большая рубленая котлета из свежего говяжего мяса покорит вас своей сочностью, а хрустящие листья салата добавят свежести.', img: '/public/product-6.png', price: 560, weight: 520 },
+        { id: 7, name: 'Начос', category: 'Закуски',  ingredients: ['Пшеничная булочка', 'Котлета из говядины', 'Красный лук', 'Листья салата', 'Соус горчичный'],textInfo: 'Супер мясное наслаждение! Большая рубленая котлета из свежего говяжего мяса покорит вас своей сочностью, а хрустящие листья салата добавят свежести.', img: '/public/product-7.png', price: 250, weight: 220 },
+        { id: 8, name: 'Картошка фри', category: 'Закуски',  ingredients: ['Пшеничная булочка', 'Котлета из говядины', 'Красный лук', 'Листья салата', 'Соус горчичный'],textInfo: 'Супер мясное наслаждение! Большая рубленая котлета из свежего говяжего мяса покорит вас своей сочностью, а хрустящие листья салата добавят свежести.', img: '/public/product-8.png', price: 245, weight: 180 },
+        { id: 9, name: 'Луковые кольца', category: 'Закуски',  ingredients: ['Пшеничная булочка', 'Котлета из говядины', 'Красный лук', 'Листья салата', 'Соус горчичный'],textInfo: 'Супер мясное наслаждение! Большая рубленая котлета из свежего говяжего мяса покорит вас своей сочностью, а хрустящие листья салата добавят свежести.', img: '/public/product-9.png', price: 230, weight: 160 },
+        { id: 10, name: 'Домашний хот-дог', category: 'Хот-доги',  ingredients: ['Пшеничная булочка', 'Котлета из говядины', 'Красный лук', 'Листья салата', 'Соус горчичный'],textInfo: 'Супер мясное наслаждение! Большая рубленая котлета из свежего говяжего мяса покорит вас своей сочностью, а хрустящие листья салата добавят свежести.', img: '/public/product-10.png', price: 290, weight: 220 },
+        { id: 11, name: 'Жгучий хот-дог', category: 'Хот-доги',  ingredients: ['Пшеничная булочка', 'Котлета из говядины', 'Красный лук', 'Листья салата', 'Соус горчичный'],textInfo: 'Супер мясное наслаждение! Большая рубленая котлета из свежего говяжего мяса покорит вас своей сочностью, а хрустящие листья салата добавят свежести.', img: '/public/product-11.png', price: 239, weight: 180 },
+        { id: 12, name: 'Классический хот-дог', category: 'Хот-доги',  ingredients: ['Пшеничная булочка', 'Котлета из говядины', 'Красный лук', 'Листья салата', 'Соус горчичный'],textInfo: 'Супер мясное наслаждение! Большая рубленая котлета из свежего говяжего мяса покорит вас своей сочностью, а хрустящие листья салата добавят свежести.', img: '/public/product-12.png', price: 220, weight: 160 },
+        { id: 13, name: 'Мясная бомба', category: 'Комбо',  ingredients: ['Пшеничная булочка', 'Котлета из говядины', 'Красный лук', 'Листья салата', 'Соус горчичный'],textInfo: 'Супер мясное наслаждение! Большая рубленая котлета из свежего говяжего мяса покорит вас своей сочностью, а хрустящие листья салата добавят свежести.', img: '/public/product-1.png', price: 689, weight: 512 },
+        { id: 14, name: 'Супер сырный', category: 'Комбо',  ingredients: ['Пшеничная булочка', 'Котлета из говядины', 'Красный лук', 'Листья салата', 'Соус горчичный'],textInfo: 'Супер мясное наслаждение! Большая рубленая котлета из свежего говяжего мяса покорит вас своей сочностью, а хрустящие листья салата добавят свежести.', img: '/public/product-2.png', price: 550, weight: 520 },
+        { id: 15, name: 'Сытный', category: 'Комбо',  ingredients: ['Пшеничная булочка', 'Котлета из говядины', 'Красный лук', 'Листья салата', 'Соус горчичный'],textInfo: 'Супер мясное наслаждение! Большая рубленая котлета из свежего говяжего мяса покорит вас своей сочностью, а хрустящие листья салата добавят свежести.', img: '/public/product-3.png', price: 639, weight: 512 },
+        { id: 16, name: 'Тяжелый удар', category: 'Шаурма',  ingredients: ['Пшеничная булочка', 'Котлета из говядины', 'Красный лук', 'Листья салата', 'Соус горчичный'],textInfo: 'Супер мясное наслаждение! Большая рубленая котлета из свежего говяжего мяса покорит вас своей сочностью, а хрустящие листья салата добавят свежести.', img: '/public/product-4.png', price: 480, weight: 520 },
+        { id: 17, name: 'Вечная классика', category: 'Шаурма',  ingredients: ['Пшеничная булочка', 'Котлета из говядины', 'Красный лук', 'Листья салата', 'Соус горчичный'],textInfo: 'Супер мясное наслаждение! Большая рубленая котлета из свежего говяжего мяса покорит вас своей сочностью, а хрустящие листья салата добавят свежести.', img: '/public/product-5.png', price: 450, weight: 512 },
+        { id: 18, name: 'Итальянский', category: 'Шаурма',  ingredients: ['Пшеничная булочка', 'Котлета из говядины', 'Красный лук', 'Листья салата', 'Соус горчичный'],textInfo: 'Супер мясное наслаждение! Большая рубленая котлета из свежего говяжего мяса покорит вас своей сочностью, а хрустящие листья салата добавят свежести.', img: '/public/product-6.png', price: 560, weight: 520 },
+        { id: 19, name: 'Начос', category: 'Пицца',  ingredients: ['Пшеничная булочка', 'Котлета из говядины', 'Красный лук', 'Листья салата', 'Соус горчичный'],textInfo: 'Супер мясное наслаждение! Большая рубленая котлета из свежего говяжего мяса покорит вас своей сочностью, а хрустящие листья салата добавят свежести.', img: '/public/product-7.png', price: 250, weight: 220 },
+        { id: 20, name: 'Картошка фри', category: 'Пицца',  ingredients: ['Пшеничная булочка', 'Котлета из говядины', 'Красный лук', 'Листья салата', 'Соус горчичный'],textInfo: 'Супер мясное наслаждение! Большая рубленая котлета из свежего говяжего мяса покорит вас своей сочностью, а хрустящие листья салата добавят свежести.', img: '/public/product-8.png', price: 245, weight: 180 },
+        { id: 21, name: 'Луковые кольца', category: 'Пицца',  ingredients: ['Пшеничная булочка', 'Котлета из говядины', 'Красный лук', 'Листья салата', 'Соус горчичный'],textInfo: 'Супер мясное наслаждение! Большая рубленая котлета из свежего говяжего мяса покорит вас своей сочностью, а хрустящие листья салата добавят свежести.', img: '/public/product-9.png', price: 230, weight: 160 },
+        { id: 19, name: 'Начос', category: 'Вок',  ingredients: ['Пшеничная булочка', 'Котлета из говядины', 'Красный лук', 'Листья салата', 'Соус горчичный'],textInfo: 'Супер мясное наслаждение! Большая рубленая котлета из свежего говяжего мяса покорит вас своей сочностью, а хрустящие листья салата добавят свежести.', img: '/public/product-10.png', price: 250, weight: 220 },
+        { id: 20, name: 'Картошка фри', category: 'Вок',  ingredients: ['Пшеничная булочка', 'Котлета из говядины', 'Красный лук', 'Листья салата', 'Соус горчичный'],textInfo: 'Супер мясное наслаждение! Большая рубленая котлета из свежего говяжего мяса покорит вас своей сочностью, а хрустящие листья салата добавят свежести.', img: '/public/product-11.png', price: 245, weight: 180 },
+        { id: 21, name: 'Луковые кольца', category: 'Вок',  ingredients: ['Пшеничная булочка', 'Котлета из говядины', 'Красный лук', 'Листья салата', 'Соус горчичный'],textInfo: 'Супер мясное наслаждение! Большая рубленая котлета из свежего говяжего мяса покорит вас своей сочностью, а хрустящие листья салата добавят свежести.', img: '/public/product-12.png', price: 230, weight: 160 },
+        { id: 19, name: 'Начос', category: 'Десерты',  ingredients: ['Пшеничная булочка', 'Котлета из говядины', 'Красный лук', 'Листья салата', 'Соус горчичный'],textInfo: 'Супер мясное наслаждение! Большая рубленая котлета из свежего говяжего мяса покорит вас своей сочностью, а хрустящие листья салата добавят свежести.', img: '/public/product-1.png', price: 250, weight: 220 },
+        { id: 20, name: 'Картошка фри', category: 'Десерты',  ingredients: ['Пшеничная булочка', 'Котлета из говядины', 'Красный лук', 'Листья салата', 'Соус горчичный'],textInfo: 'Супер мясное наслаждение! Большая рубленая котлета из свежего говяжего мяса покорит вас своей сочностью, а хрустящие листья салата добавят свежести.', img: '/public/product-2.png', price: 245, weight: 180 },
+        { id: 21, name: 'Луковые кольца', category: 'Десерты',  ingredients: ['Пшеничная булочка', 'Котлета из говядины', 'Красный лук', 'Листья салата', 'Соус горчичный'],textInfo: 'Супер мясное наслаждение! Большая рубленая котлета из свежего говяжего мяса покорит вас своей сочностью, а хрустящие листья салата добавят свежести.', img: '/public/product-3.png', price: 230, weight: 160 },
+        { id: 19, name: 'Начос', category: 'Соусы',  ingredients: ['Пшеничная булочка', 'Котлета из говядины', 'Красный лук', 'Листья салата', 'Соус горчичный'],textInfo: 'Супер мясное наслаждение! Большая рубленая котлета из свежего говяжего мяса покорит вас своей сочностью, а хрустящие листья салата добавят свежести.', img: '/public/product-4.png', price: 250, weight: 220 },
+        { id: 20, name: 'Картошка фри', category: 'Соусы',  ingredients: ['Пшеничная булочка', 'Котлета из говядины', 'Красный лук', 'Листья салата', 'Соус горчичный'],textInfo: 'Супер мясное наслаждение! Большая рубленая котлета из свежего говяжего мяса покорит вас своей сочностью, а хрустящие листья салата добавят свежести.', img: '/public/product-5.png', price: 245, weight: 180 },
+        { id: 21, name: 'Луковые кольца', category: 'Соусы',  ingredients: ['Пшеничная булочка', 'Котлета из говядины', 'Красный лук', 'Листья салата', 'Соус горчичный'],textInfo: 'Супер мясное наслаждение! Большая рубленая котлета из свежего говяжего мяса покорит вас своей сочностью, а хрустящие листья салата добавят свежести.', img: '/public/product-6.png', price: 230, weight: 160 },
       ],
       cart: []
     };
@@ -165,6 +169,9 @@ export default {
     },
     openDelivery() {
       this.showDelivery = true;
+    },
+    openProduct(product) {
+      this.selectedProduct = product;
     }
   }
 };
