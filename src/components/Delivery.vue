@@ -17,7 +17,16 @@
                 <form class="deliver__top-form" @submit.prevent="submitForm">
                     <div class="deliver__form-header">
                         <input class="deliver__header-input" type="text" placeholder="Ваше имя" v-model="name" required>
-                        <input class="deliver__header-input" type="tel" placeholder="Телефон" v-model="phone" required>
+                        <input 
+                            class="deliver__header-input" 
+                            type="tel" 
+                            placeholder="Телефон" 
+                            v-model="phone" 
+                            @input="validatePhone" 
+                            @blur="checkPhoneFormat"
+                            required
+                        >
+                        <p v-if="phoneError" class="error-message">{{ phoneError }}</p>
                     </div>
                     <div class="deliver__form-main">
                         <div class="deliver__main-body">
@@ -42,7 +51,6 @@
         </div>
     </section>
 </template>
-
 <script>
 export default {
     data() {
@@ -50,6 +58,7 @@ export default {
             isVisible: true,
             name: '',
             phone: '',
+            phoneError: '',
             deliveryType: '',
             address: '',
             floor: '',
@@ -60,7 +69,33 @@ export default {
         closePopup() {
             this.isVisible = false;
         },
+        validatePhone() {
+            // Оставляем только + и цифры
+            this.phone = this.phone.replace(/[^0-9+]/g, '');
+            
+            // Если первый символ не "+", добавляем его
+            if (this.phone.length > 0 && this.phone[0] !== '+') {
+                this.phone = '+' + this.phone.replace(/\+/g, ''); // Убираем все лишние плюсы
+            }
+
+            // Ограничиваем длину 12 символами
+            if (this.phone.length > 12) {
+                this.phone = this.phone.slice(0, 12);
+            }
+        },
+        checkPhoneFormat() {
+            const phoneRegex = /^\+[0-9]{11}$/; // + и 11 цифр (всего 12 символов)
+            if (!phoneRegex.test(this.phone)) {
+                this.phoneError = 'Введите корректный номер телефона (пример: +998901234567)';
+            } else {
+                this.phoneError = '';
+            }
+        },
         submitForm() {
+            if (this.phoneError) {
+                alert('Исправьте ошибки в номере телефона');
+                return;
+            }
             if (this.deliveryType === 'delivery' && (!this.address || !this.floor || !this.intercom)) {
                 alert('Заполните все поля для доставки');
                 return;
@@ -71,3 +106,4 @@ export default {
     }
 };
 </script>
+

@@ -11,7 +11,7 @@
           </div>
           <div class="header__content-info">
             <h1 class="header__info-title">Только самые <span> сочные бургеры!</span></h1>
-            <p class="header__info-text">Бесплатная доставка от 599₽</p>
+            <p class="header__info-text">Бесплатная доставка от 1599₽</p>
           </div>
         </div>
       </div>
